@@ -1,0 +1,46 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven
+  labels:
+    app.kubernetes.io/version: "0.2"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: image-build
+    tekton.dev/displayName: "maven"
+spec:
+  description: >-
+
+  params:
+  - name: MAVEN_IMAGE
+    type: string
+    description: Maven base image
+    default: gcr.io/cloud-builders/mvn@sha256:57523fc43394d6d9d2414ee8d1c85ed7a13460cbb268c3cd16d28cfb3859e641 #tag: latest
+  - name: DIRECTORY
+    description: The directory containing the app, relative to the source repository root
+    default: .
+  - name: CACHE
+    description: The name of the volume for caching Maven artifacts and base image layers
+    default: empty-dir-volume
+  - name: GOAL
+    default: compile
+
+  workspaces:
+  - name: source
+
+  steps:
+  - name: maven-goal
+    image: $(params.MAVEN_IMAGE)
+    # Make sh evaluate $HOME.
+    script: |
+      #!/bin/sh
+      mvn -B \
+        -Duser.home=$HOME \
+        $(params.GOAL) \
+    workingDir: $(workspaces.source.path)/$(params.DIRECTORY)
+    env:
+    - name: HOME
+      value: /workspace
+    volumeMounts:
+    - name: $(params.CACHE)
+      mountPath: /workspace/.m2

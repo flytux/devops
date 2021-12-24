@@ -1,0 +1,78 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bitbucket
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: bitbucket
+  name: bitbucket-pvc
+  labels:
+    app: bitbucket
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "local-path"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: bitbucket
+  name: bitbucket
+  labels:
+    app: bitbucket
+spec:
+  ports:
+  - port: 7990
+    targetPort: 7990
+    nodePort: 30079
+    name: ui
+  - port: 7999
+    targetPort: 7999
+    nodePort: 30779
+    name: internal
+  type: NodePort
+  selector:
+    app: bitbucket
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bitbucket
+  name: bitbucket
+spec:
+  selector:
+    matchLabels:
+      app: bitbucket
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bitbucket
+    spec:
+      containers:
+      - image: atlassian/bitbucket-server
+        imagePullPolicy: IfNotPresent
+        name: bitbucket
+        ports:
+        - containerPort: 7990
+          name: ui
+        - containerPort: 7999
+          name: internal
+        volumeMounts:
+        - name: local-home
+          mountPath: /var/atlassian/application-data/bitbucket
+      volumes:
+        - name: local-home
+          persistentVolumeClaim:
+            claimName: bitbucket-pvc
+

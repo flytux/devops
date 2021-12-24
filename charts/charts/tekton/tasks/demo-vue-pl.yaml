@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: demo-vue-build
+spec:
+  params:
+    - name: image-name 
+      description: 
+    - name: context-dir
+      default: .
+  workspaces:
+    - name: source 
+  resources:
+    - name: appSource
+      type: git
+  tasks:
+    - name: clone-sources
+      taskRef:
+        name: source-lister
+      params:
+        - name: context-dir
+          value: $(params.context-dir)
+      resources:
+        inputs:
+          - name: source
+            resource: appSource
+    - name: build-image
+      taskRef:
+        name: kaniko
+      runAfter:
+        - clone-sources
+      params:
+        - name: CONTEXT
+          value: $(params.context-dir)
+        - name: IMAGE
+          value: $(params.image-name)
+      workspaces:
+        - name: source
+          workspace: appSource

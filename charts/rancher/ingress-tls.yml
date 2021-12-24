@@ -1,0 +1,42 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  annotations:
+    meta.helm.sh/release-name: rancher
+    meta.helm.sh/release-namespace: cattle-system
+  labels:
+    app: rancher
+  name: rancher
+  namespace: cattle-system
+spec:
+  ca:
+    secretName: tls-rancher
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: rancher
+    cert-manager.io/issuer-kind: Issuer
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+  labels:
+    app: rancher
+  name: devkube
+  namespace: cattle-system
+spec:
+  rules:
+  - host: devkube.node1
+    http:
+      paths:
+      - backend:
+          serviceName: rancher
+          servicePort: 80
+  tls:
+  - hosts:
+    - rancher.node1
+    - devkube.node1
+    secretName: tls-rancher-ingress
+

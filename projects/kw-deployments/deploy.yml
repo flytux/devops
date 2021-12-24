@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: apps
+  name: kb-build-sample
+spec:
+  selector:
+    matchLabels:
+      app: dev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dev
+    spec:
+      containers:
+        - name: kb-build-sample
+          image: 192.168.121.151:30005/kb-dev:dev-211105-145153-f7755115
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: apps
+  name: kb-build-sample-svc
+  labels:
+    app: dev
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30088
+      name: http-port
+  type: NodePort
+  selector:
+    app: dev
