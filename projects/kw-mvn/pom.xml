@@ -52,13 +52,13 @@
     <repositories>
 	<repository>
 		<id>local</id>
-		<url>http://192.168.121.151:30081/repository/maven-public/</url>
+		<url>http://nexus.kubeworks.net/repository/kw-proxy/</url>
 	</repository>
     </repositories>
     <pluginRepositories>
 	<pluginRepository>
 		<id>local</id>
-		<url>http://192.168.121.151:30081/repository/maven-public/</url>
+		<url>http://nexus.kubeworks.net/repository/kw-proxy/</url>
 	</pluginRepository>
     </pluginRepositories>
 </project>
