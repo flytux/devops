@@ -42,7 +42,7 @@ restrictedAdmin: false
 #   value: "1.0"
 
 # Fully qualified name to reach your Rancher server
-hostname: rancher.node1
+hostname: rancher.kubeworks.net
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -55,7 +55,7 @@ ingress:
   # If set to false, ingress will not be created
   # Defaults to true
   # options: true, false
-  enabled: false
+  enabled: true
   extraAnnotations:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
@@ -99,7 +99,7 @@ rancherImageTag: v2.5.9
 # rancherImagePullPolicy: <pullPolicy>
 
 # Number of Rancher server replicas.
-replicas: 3
+replicas: 1
 
 # Set pod resource requests/limits for Rancher.
 resources: {}

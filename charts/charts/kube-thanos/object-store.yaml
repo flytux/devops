@@ -1,8 +1,0 @@
----
-type: S3
-config:
-  endpoint: "minio.minio:9000"
-  bucket: "thanos"
-  region: "eu-west-1"
-  access_key: "minio"
-  secret_key: "minio123"
