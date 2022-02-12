@@ -8,8 +8,8 @@ image:
 imagePullSecrets: []
 
 nfs:
-  server:
-  path: /nfs-storage
+  server: 172.31.34.196
+  path: /mnt/pv
   mountOptions:
   volumeName: nfs-subdir-external-provisioner-root
   # Reclaim policy for the main nfs volume
@@ -24,7 +24,7 @@ storageClass:
 
   # Set StorageClass as the default StorageClass
   # Ignored if storageClass.create is false
-  defaultClass: false
+  defaultClass: true
 
   # Set a StorageClass name
   # Ignored if storageClass.create is false
