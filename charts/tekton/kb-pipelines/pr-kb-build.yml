@@ -12,11 +12,12 @@ spec:
   - name: insecure-registry
     value: "true"
   - name: git-url
-    value: http://192.168.121.151:30079/scm/kbdev/kb-dev.git
-  - name: image-name
-    value: "192.168.121.151:30005/kw/build"
+    value: http://bitbucket.kubeworks.net/scm/dev/kw-mvn.git
+  - name: image-url
+    value: "docker.kubeworks.net/kw-mvn"
   workspaces:
   - name: source
     persistentvolumeclaim:
-      claimName: pvc-kb-build
-
+      claimName: pvc-dev-build
+  - name: gitops
+    emptyDir: {}

@@ -20,7 +20,7 @@ spec:
   - name: MAVEN_IMAGE
     type: string
     description: Maven base image
-    default: gcr.io/cloud-builders/mvn:3.8.3
+    default: docker.kubeworks.net/cloud-builders/mvn
   - name: DIRECTORY
     description: The directory containing the app, relative to the source repository root
     default: .
@@ -58,7 +58,7 @@ spec:
         -DsendCredentialsOverHttp=true \
         -Djib.allowInsecureRegistries=$(params.INSECUREREGISTRY) \
         -Djib.to.image=$(params.IMAGE) \
-        -Djib.from.image=adoptopenjdk:11 \
+        -Djib.from.image=docker.kubeworks.net/adoptopenjdk:11 \
         compile \
         com.google.cloud.tools:jib-maven-plugin:build
     workingDir: $(workspaces.source.path)/$(params.DIRECTORY)

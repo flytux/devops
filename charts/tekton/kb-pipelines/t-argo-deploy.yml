@@ -14,7 +14,7 @@ spec:
   - name: deploy-manifest
     default: "deploy.yml"
   - name: argo-url
-    default: "192.168.121.151:30080"
+    default: "argocd.kubeworks.net"
 
   workspaces:
   - name: gitops

@@ -2,8 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: apps
-  name: kb-build-sample
+  name: kw-mvn
 spec:
   selector:
     matchLabels:
@@ -16,8 +15,8 @@ spec:
         app: dev
     spec:
       containers:
-        - name: kb-build-sample
-          image: 192.168.121.151:30005/kb-dev:dev-211105-145153-f7755115
+        - name: kb-mvn
+          image: docker.kubeworks.net/kw-mvn:dev-211105-145153-f7755115
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -27,7 +26,7 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: apps
-  name: kb-build-sample-svc
+  name: kw-mvn
   labels:
     app: dev
 spec:

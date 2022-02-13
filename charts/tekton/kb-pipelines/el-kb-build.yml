@@ -64,6 +64,6 @@ spec:
         workspaces:
         - name: source
           persistentvolumeclaim:
-            claimName: pvc-kb-build
+            claimName: pvc-dev-build
         - name: gitops
           emptyDir: {}

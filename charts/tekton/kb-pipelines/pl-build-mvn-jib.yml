@@ -53,9 +53,9 @@ spec:
         - build-image
       params:
         - name: argo-app-name
-          value: "kb-dev"
+          value: "kw-mvn"
         - name: gitops-url
-          value: "http://192.168.121.151:30079/scm/kbdev/kb-dev-deployments.git"
+          value: "http://bitbucket.kubeworks.net/scm/dev/kw-deploy.git"
         - name: image-url
           value: $(params.image-url)
         - name: build-id
