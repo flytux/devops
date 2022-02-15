@@ -29,7 +29,7 @@ spec:
 
   steps:
   - name: git-checkout
-    image: alpine/git:v2.26.2
+    image: docker.kubeworks.net/alpine/git:v2.26.2
     workingDir: "$(workspaces.gitops.path)"
     script: |
       #!/usr/bin/env sh
@@ -38,7 +38,7 @@ spec:
       git fetch --depth 1 origin $(params.gitops-revision)
       git checkout $(params.gitops-revision)
   - name: update-yaml
-    image: alpine/git:v2.26.2
+    image: docker.kubeworks.net/alpine/git:v2.26.2
     workingDir: "$(workspaces.gitops.path)"
     script: |
       #!/usr/bin/env sh
@@ -46,7 +46,7 @@ spec:
       echo "updating image to $(inputs.params.image-url):$(inputs.params.build-id)"
       sed -i "s|$(params.image-url):.*$|$(params.image-url):$(params.build-id)|" $(params.deploy-manifest)
   - name: commit-push-changes-gitops
-    image: alpine/git:v2.26.2
+    image: docker.kubeworks.net/alpine/git:v2.26.2
     workingDir: "$(workspaces.gitops.path)"
     script: |
       #!/usr/bin/env sh
@@ -57,7 +57,7 @@ spec:
       git commit --allow-empty -m "[tekton] updating image to $(inputs.params.build-id)"
       git push origin $(params.gitops-revision)
   - name: wait-for-argocd-rollout
-    image: quay.io/argoproj/argocd:v2.1.6
+    image: docker.kubeworks.net/argoproj/argocd:v2.1.6
     script: |
       #!/usr/bin/env sh
       #set -e

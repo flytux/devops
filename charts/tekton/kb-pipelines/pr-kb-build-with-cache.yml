@@ -1,0 +1,25 @@
+piVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: kb-build-pipeline-
+spec:
+  serviceAccountName: sa-pipeline-runner
+  pipelineRef:
+    name: build-mvn-jib
+  params:
+  - name: revision
+    value: master
+  - name: insecure-registry
+    value: "true"
+  - name: git-url
+    value: http://bitbucket.ccnapd0/scm/mvn/mvn-test.git
+  - name: image-url
+    value: "10.138.71.87:30005/mvn-test"
+  workspaces:
+  - name: source
+    persistentvolumeclaim:
+      claimName: pvc-kb-build
+  - name: gitops
+    emptyDir: {}
+
+

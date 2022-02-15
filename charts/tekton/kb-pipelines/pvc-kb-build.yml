@@ -1,8 +1,20 @@
+piVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-kb-build
+  namespace: dev-build
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: local-path
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-dev-build
+  name: pvc-build-cache
   namespace: dev-build
 spec:
   accessModes:
@@ -10,4 +22,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: nfs-client
+  storageClassName: nfs-csi
+
+
