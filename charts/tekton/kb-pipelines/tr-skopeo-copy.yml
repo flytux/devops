@@ -1,0 +1,24 @@
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: skopeo-copy-
+spec:
+  serviceAccountName: sa-pipeline-runner
+  params:
+  - name: srcImageURL
+    value: "10.138.71.87:30005/mvn-test:dev-220214-084857-f44ddb7c"
+  - name: destImageURL
+    value: "10.138.71.87:30105/mvn-test"
+  - name: destImageTAG
+    value: "dev-220214-084857-f44ddb7c"
+  - name: srcTLSverify
+    value: "false"
+  - name: destTLSverify
+    value: "false"
+  taskRef:
+    name: skopeo-copy
+    kind: Task
+
+
