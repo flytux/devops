@@ -56,8 +56,8 @@ spec:
         - name: OBJSTORE_CONFIG
           valueFrom:
             secretKeyRef:
-              key: thanos.yaml
-              name: thanos-objectstorage
+              key: object-store.yaml
+              name: thanos
         - name: HOST_IP_ADDRESS
           valueFrom:
             fieldRef:

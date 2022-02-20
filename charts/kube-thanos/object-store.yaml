@@ -6,3 +6,4 @@ config:
   region: "eu-west-1"
   access_key: "minio"
   secret_key: "minio123"
+  insecure: true

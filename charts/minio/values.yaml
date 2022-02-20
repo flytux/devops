@@ -67,8 +67,8 @@ priorityClassName: ""
 ## AccessKey and secretKey is generated when not set
 ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
 ##
-accessKey: ""
-secretKey: ""
+accessKey: "minio"
+secretKey: "minio123"
 certsPath: "/etc/minio/certs/"
 configPathmc: "/etc/minio/mc/"
 mountPath: "/export"
@@ -136,10 +136,10 @@ persistence:
   ##
   ## Storage class of PV to bind. By default it looks for standard storage class.
   ## If the PV uses a different storage class, specify that here.
-  storageClass: "local-path"
+  storageClass: "nfs-client"
   VolumeName: ""
   accessMode: ReadWriteOnce
-  size: 2Gi
+  size: 20Gi
 
   ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
   ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
