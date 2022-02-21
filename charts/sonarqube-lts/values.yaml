@@ -326,9 +326,9 @@ postgresql:
   # line below:
   # existingSecret: ""
   # existingSecretPasswordKey: "postgresql-password"
-  postgresqlUsername: "sonarUser"
-  postgresqlPassword: "sonarPass"
-  postgresqlDatabase: "sonarDB"
+  postgresqlUsername: "sonaruser"
+  postgresqlPassword: "password"
+  postgresqlDatabase: "sonardb"
   # Specify the TCP port that PostgreSQL should use
   service:
     port: 5432
