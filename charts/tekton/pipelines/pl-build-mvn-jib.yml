@@ -55,7 +55,7 @@ spec:
         - name: argo-app-name
           value: "kw-mvn"
         - name: gitops-url
-          value: "http://bitbucket.kubeworks.net/scm/dev/kw-deploy.git"
+          value: "http://gitea.kubeworks.net/jaehoon/kw-deploy.git"
         - name: image-url
           value: $(params.image-url)
         - name: build-id

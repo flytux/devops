@@ -89,7 +89,7 @@ resources:
 ##
 persistence:
   enabled: true
-  existingGiteaClaim: gitea-gitea
+  # existingGiteaClaim: gitea-gitea
   # existingPostgresClaim: gitea-postgres
   giteaSize: 10Gi
   postgresSize: 5Gi

@@ -3,7 +3,7 @@
 
 FROM maven:3.8.3-jdk-11-slim
 
-RUN apt-get update && apt-get install -y net-tools iproute2 dnsutils iputils-ping openssh-server zsh git vim tmux jq netcat yamllint
+RUN apt-get update && apt-get install -y net-tools iproute2 dnsutils iputils-ping openssh-server zsh git vim tmux jq netcat neovim
 
 COPY bins/* /usr/local/bin/
 
@@ -26,4 +26,6 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 RUN echo 'root:1' | chpasswd
 
-ENTRYPOINT ["/bin/sh"]
+WORKDIR /root
+
+ENTRYPOINT ["/usr/bin/zsh"]

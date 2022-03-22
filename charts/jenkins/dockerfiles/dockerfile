@@ -1,14 +1,14 @@
-FROM openjdk:8-jdk
+FROM adoptopenjdk/openjdk11:debian-slim
 
-RUN apt-get update -y && apt-get install -y curl sudo
+RUN apt-get update -y && apt-get install -y curl sudo git vim 
 
 #Install docker
 RUN curl -sSL https://get.docker.com/ | sh
 
 ARG user=jenkins
 ARG group=jenkins
-ARG uid=10000
-ARG gid=10000
+ARG uid=1000
+ARG gid=1000
 
 ENV HOME /home/${user}
 RUN groupadd -g ${gid} ${group}
@@ -28,7 +28,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-co
     && chmod +x /usr/local/bin/docker-compose
 
 #add maven 3.8.4
-COPY apache-maven-3.8.4 /opt
+COPY apache-maven-3.6.3 /opt/apache-maven-3.6.3
     
 #add argdcd
 COPY argocd /usr/local/bin
@@ -45,5 +45,6 @@ RUN mkdir /home/${user}/.jenkins && mkdir -p ${AGENT_WORKDIR}
 VOLUME /home/${user}/.jenkins
 VOLUME ${AGENT_WORKDIR}
 WORKDIR /home/${user}
+ENV PATH=/opt/apache-maven-3.6.3/bin:${PATH}
 
 ENTRYPOINT ["/usr/local/bin/jenkins-slave"]

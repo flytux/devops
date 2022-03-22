@@ -1,0 +1,9 @@
+maven-plugin
+kubernetes
+docker-plugin
+docker-commons
+gradle
+pipeline-stage-step
+pipeline-stage-view
+sonar
+blueocean
