@@ -88,12 +88,12 @@ resources:
 ## ref:
 ##
 persistence:
-  enabled: true
+  enabled: false
   # existingGiteaClaim: gitea-gitea
   # existingPostgresClaim: gitea-postgres
   giteaSize: 10Gi
   postgresSize: 5Gi
-  storageClass: local-path
+  # storageClass: glusterfs
   accessMode: ReadWriteMany
 ## addtional annotations for hte pvcs  uncommenting below will prevent helm from deleting the pvc when hte chart is deleted
 #  annotations:
@@ -113,7 +113,7 @@ persistence:
 externalDB:
   dbUser: "gitea"
   dbPassword: "password"
-  dbHost: "postgres-postgresql.postgres.svc.cluster.local" # or some external host
+  dbHost: "postgresql.postgres.svc.cluster.local" # or some external host
   dbPort: "5432"
   dbDatabase: "gitea"
 
