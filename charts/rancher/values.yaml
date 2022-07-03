@@ -42,7 +42,7 @@ restrictedAdmin: false
 #   value: "1.0"
 
 # Fully qualified name to reach your Rancher server
-hostname: rancher.centos-1
+hostname: rancher.kw01
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -67,7 +67,7 @@ ingress:
 
   tls:
     # options: rancher, letsEncrypt, secret
-    source: rancher
+    source: secret
 
 ### LetsEncrypt config ###
 # ProTip: The production environment only allows you to register a name 5 times a week.
@@ -80,7 +80,7 @@ letsEncrypt:
     class: ""
 # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
 # in the 'rancher-system' namespace. See the README.md for details
-privateCA: false
+privateCA: true
 # http[s] proxy server passed into rancher server.
 # proxy: http://<username>@<password>:<url>:<port>
 
@@ -91,7 +91,7 @@ noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
 rancherImage: rancher/rancher
 # rancher/rancher image tag. https://hub.docker.com/r/rancher/rancher/tags/
 # Defaults to .Chart.appVersion
-rancherImageTag: v2.5.9
+rancherImageTag: v2.5.14
 
 # Override imagePullPolicy for rancher server images
 # options: Always, Never, IfNotPresent
