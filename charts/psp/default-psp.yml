@@ -1,0 +1,36 @@
+apiVersion: v1
+items:
+- apiVersion: policy/v1beta1
+  kind: PodSecurityPolicy
+  metadata:
+    annotations:
+      seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+    creationTimestamp: "2022-07-05T14:03:01Z"
+    name: default-psp
+    resourceVersion: "260"
+    uid: 8e58b8e6-94de-4c95-a36e-544b29e0abe9
+  spec:
+    allowPrivilegeEscalation: true
+    allowedCapabilities:
+    - '*'
+    fsGroup:
+      rule: RunAsAny
+    hostIPC: true
+    hostNetwork: true
+    hostPID: true
+    hostPorts:
+    - max: 65535
+      min: 0
+    privileged: true
+    runAsUser:
+      rule: RunAsAny
+    seLinux:
+      rule: RunAsAny
+    supplementalGroups:
+      rule: RunAsAny
+    volumes:
+    - '*'
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
