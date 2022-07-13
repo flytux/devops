@@ -23,10 +23,10 @@ ZSH_THEME="tjkirch"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -100,13 +100,22 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source /$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /$HOME/.oh-my-zsh/custom/plugins/zsh-kubectl-prompt/kubectl.zsh
 
 source <(kubectl completion zsh)
 
 alias k=kubectl
-alias vi=nvim
+alias vi=vim
+
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deploy'
+alias kgs='kubectl get svc'
+alias kgn='kubectl get nodes -o wide'
+
 alias kn='kubectl config set-context --current --namespace'
 alias kc='kubectl config use-context'
 alias di='docker images --format "table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.Size}}\t{{.CreatedSince}}"'
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=cyan,bold'
+
+RPROMPT='%{$fg[cyan]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
