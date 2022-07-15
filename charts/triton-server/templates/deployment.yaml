@@ -53,8 +53,10 @@ spec:
     spec:
       volumes:
         - name: models
-          hostPath:
-            path: /home/k8sadmin/works/triton-server/docs/examples/model_repository
+          persistentVolumeClaim:
+            claimName: {{ .Values.image.persistentVolumeClaimName }}
+            #hostPath:
+            #path: /home/k8sadmin/works/triton-server/docs/examples/model_repository
             #  - name: models
             #    nfs:
             #      server: {{ .Values.image.modelRepositoryServer }}
