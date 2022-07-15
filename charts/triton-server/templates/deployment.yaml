@@ -54,7 +54,7 @@ spec:
       volumes:
         - name: models
           hostPath:
-            path: /home/jaehoon/works/triton/docs/examples/model_repository
+            path: /home/k8sadmin/works/triton-server/docs/examples/model_repository
             #  - name: models
             #    nfs:
             #      server: {{ .Values.image.modelRepositoryServer }}
