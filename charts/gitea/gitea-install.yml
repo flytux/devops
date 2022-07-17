@@ -36,6 +36,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: git-volume
 spec:
+  storageClassName: nfs-client
   accessModes:
     - ReadWriteOnce
   resources:

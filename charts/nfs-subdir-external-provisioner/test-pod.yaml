@@ -19,3 +19,17 @@ spec:
     - name: nfs-pvc
       persistentVolumeClaim:
         claimName: test-claim
+
+----
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-claim
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
