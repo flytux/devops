@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gitea
-        image: gitea/gitea:latest
+        image: gitea/gitea:1.16
         ports:
         - containerPort: 3000
           name: gitea
@@ -42,3 +42,35 @@ spec:
   resources:
     requests:
       storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea
+spec:
+  type: ClusterIP
+  selector:
+    app: gitea
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitea
+  namespace: gitea
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: gitea.kubeworks.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: gitea
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+
