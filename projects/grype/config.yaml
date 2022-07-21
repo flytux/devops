@@ -1,0 +1,10 @@
+db:
+  # check for database updates on execution
+  auto-update: false
+
+registry:
+  # skip TLS verification when communicating with the registry
+  # GRYPE_REGISTRY_INSECURE_SKIP_TLS_VERIFY env var
+  insecure-skip-tls-verify: true
+
+

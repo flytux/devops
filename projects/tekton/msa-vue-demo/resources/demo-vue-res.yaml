@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: vue-git
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: http://192.168.100.100:30003/jaehoon/vue-trello.git
+---
+
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: vue-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: 192.168.100.100:30005/vue-demo:latest

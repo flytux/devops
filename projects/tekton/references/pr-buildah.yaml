@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: buildah-run-
+spec:
+  serviceAccountName: buildpacks-service-account # Only needed if you set up authorization
+  pipelineRef:
+    name: source-build-push
+  params:
+  - name: image-name
+    value: 192.168.33.33:30005/buildah:dev
+  workspaces:
+  - name: source
+    persistentvolumeclaim:
+      claimName: buildah-pvc
+  - name: maven-settings
+    configmap: 
+      name: maven-settings

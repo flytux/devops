@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: demo-vue-build-
+spec:
+  serviceAccountName: demo-service-account # Only needed if you set up authorization
+  pipelineRef:
+    name: demo-vue-build
+  params:
+  - name: revision
+    value: master
+  - name: git-url
+    value: 192.168.219.112:30079/scm/demo/vue-trello
+  - name: image-name
+    value: 192.168.219.112:30005/demo/vue-trello
+  resources:
+  - name: appSource
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        #value: $(params.revision)
+        value: master
+      - name: url
+        #value: $(params.git-url)
+        value: 192.168.100.100:30003/jaehoon/vue-trello
+  workspaces:
+  - name: source
+    persistentvolumeclaim:
+      claimName: demo-build-pvc

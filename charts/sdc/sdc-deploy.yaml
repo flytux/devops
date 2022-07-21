@@ -1,0 +1,106 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sdc-pv
+  labels:
+    type: local
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/sdc"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sdc-pvc
+  labels:
+    app: sdc-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ""
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datacollector
+  labels:
+    app: datacollector
+spec:
+  ports:
+  - port: 31863
+    targetPort: 18630
+    nodePort: 31863
+    name: ui
+  type: NodePort
+  selector:
+    app: datacollector
+#---
+#apiVersion: networking.k8s.io/v1beta1
+#kind: Ingress
+#metadata:
+#  name: sdc-ingress
+#spec:
+#  rules:
+#  - host: "sdc.datalake-kw"
+#    http:
+#      paths:
+#      - pathType: Prefix
+#        path: "/"
+#        backend:
+#          serviceName: datacollector
+#          servicePort: 18630
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datacollector
+spec:
+  selector:
+    matchLabels:
+      app: datacollector
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: datacollector
+    spec:
+      containers:
+      - image: kubeworks/sdc:dev
+        name: datacollector
+        ports:
+        - containerPort: 18630
+          name: ui
+        volumeMounts:
+        - name: sdc-pv
+          mountPath: /data
+        env:
+        - name: SDC_JAVA_OPTS
+          value: "-Xmx4g -Xms4g"
+      securityContext:
+        fsGroup: 20159
+      volumes:
+        - name: sdc-pv
+          persistentVolumeClaim:
+            claimName: sdc-pvc
+      initContainers:
+        - command:
+          - sh
+          - -c
+          - chown -R 20159:20159 /data
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          name: set-dir-owner
+          volumeMounts:      
+            - mountPath: /data
+              name: sdc-pv

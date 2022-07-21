@@ -1,0 +1,59 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: build-pipeline-listener
+spec:
+  serviceAccountName: build-trigger-sa
+  serviceType: NodePort
+  triggers:
+    - name: build-pipeline-trigger
+      bindings:
+        - ref: build-pipeline-binding
+      template:
+        ref: build-pipeline-template
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: build-pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(body.changes[0].ref.displayId)
+    - name: gitrepositoryurl
+      value: $(body.repository.links.clone[0].href)
+    - name: image-name
+      value: $(body.repository.name)
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: build-pipeline-template
+spec:
+  params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+    - name: image-name
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: build-pipeline-run-
+      spec:
+        serviceAccountName: build-sa
+        pipelineRef:
+          name: git-to-image
+        params:
+          - name: image-name
+            value: 192.168.33.10:30005/$(tt.params.image-name)
+          - name: revision
+            value: $(tt.params.gitrevision)
+          - name: git-url
+            value: $(tt.params.gitrepositoryurl)
+        workspaces:
+        - name: source
+          persistentvolumeclaim:
+            claimName: build-source-pvc

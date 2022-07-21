@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: jib-gradle-pipeline-run-
+spec:
+  serviceAccountName: build-sa
+  pipelineRef:
+    name: jib-gradle-pipeline
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: pvc-source
+  params:
+  - name: GIT_URL
+    value: https://github.com/flytux/jib-gradle-demo.git
+  - name: REVISION
+    value: main
+  - name: DIRECTORY
+    value: .
+  - name: IMAGE_URL
+    value: 192.168.100.101:30005/kw/gradle-demo:jib 
+  - name: CACHE
+    value: jib-maven-cache
+  podTemplate:
+    volumes:
+    - name: jib-maven-cache
+      persistentVolumeClaim:
+        claimName: pvc-cache 

@@ -1,0 +1,84 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dremio-pv
+  labels:
+    type: local
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/dremio"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dremio-pvc
+  labels:
+    app: dremio
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: "dremio-pv"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dremio
+  labels:
+    app: dremio
+spec:
+  selector:
+    matchLabels:
+      app: dremio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dremio
+    spec:
+      containers:
+      - image: dremio/dremio-oss
+        name: dremio
+        ports:
+        - containerPort: 9047
+          name: ui
+        - containerPort: 31010
+          name: jdbc
+        - containerPort: 45678
+          name: fabric
+        volumeMounts:
+        - name: dremio-pv
+          mountPath: /opt/dremio/data
+      volumes:
+        - name: dremio-pv
+          persistentVolumeClaim:
+            claimName: dremio-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: dremio-svc
+spec:
+ type: NodePort
+ selector:
+   app: dremio
+ ports:
+   - name: ui
+     protocol: TCP
+     port: 9047
+     nodePort: 30947
+   - name: jdbc
+     protocol: TCP
+     port: 31010
+     nodePort: 31010
+ selector:
+   app: dremio

@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git-source
+spec:
+  type: git
+  params:
+    - name: url
+      value: http://192.168.33.33:30079/scm/demo/samples.git
+    - name: revision
+      value: master
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: app-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: 192.168.33.33:30005/demo-cnb:jib-maven

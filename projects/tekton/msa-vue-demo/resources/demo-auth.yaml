@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: docker-auth
+    annotations:
+        tekton.dev/docker-0: 192.168.219.112:30005
+type: kubernetes.io/basic-auth
+stringData:
+    username: admin
+    password: "1"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bitbucket-auth
+  annotations:
+    tekton.dev/git-0: http://192.168.219.112:30079
+type: kubernetes.io/basic-auth
+stringData:
+  username: admin
+  password: "1"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: demo-service-account
+secrets:
+    - name: docker-auth
+    - name: bitbucket-auth

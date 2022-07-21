@@ -1,0 +1,49 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: jib-gradle-pipeline
+spec:
+  workspaces:
+  - name: shared-workspace
+
+  params:
+  - name: GIT_URL
+  - name: REVISION
+  - name: IMAGE_URL
+  - name: DIRECTORY
+  - name: CACHE
+
+  tasks:
+  - name: fetch-repository # This task fetches a repository from github, using the `git-clone` task we installed
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: $(params.GIT_URL)
+    - name: revision
+      value: $(params.REVISION)
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+  - name: jib-gradle # This task uses the `buildpacks` task to build the application
+    taskRef:
+      name: jib-gradle
+    runAfter:
+    - fetch-repository
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: DIRECTORY
+      value: $(params.DIRECTORY) # This is the path within our samples repo we want to build
+    - name: IMAGE
+      value: $(params.IMAGE_URL)
+    - name: INSECUREREGISTRY
+      value: "true"
+    - name: CACHE
+      value: $(params.CACHE)

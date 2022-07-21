@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-vue-
+spec:
+  serviceAccountName: demo-service-account 
+  pipelineRef:
+    name: git-to-image
+  params:
+  - name: revision
+    value: master
+  - name: git-url
+    value: "http://192.168.219.112:30079/scm/demo//vue-trello.git"
+  - name: image-name
+    value: "192.168.219.112:30005/demo/vue-trello"
+  workspaces:
+  - name: source
+    persistentvolumeclaim:
+      claimName: demo-build-pvc

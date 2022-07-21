@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: git-to-image
+spec:
+  params:
+    - name: git-url 
+    - name: revision
+      default: master
+    - name: image-name 
+    - name: context-dir
+      default: .
+    - name: tls-verify
+      default: "FALSE"
+  workspaces:
+    - name: source 
+  tasks:
+    - name: clone-sources
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: $(params.revision)
+      workspaces:
+        - name: output
+          workspace: source
+    - name: build-image
+      taskRef:
+        name: buildah
+      runAfter:
+        - clone-sources
+      params:
+        - name: CONTEXT
+          value: $(params.context-dir)
+        - name: IMAGE
+          value: $(params.image-name)
+        - name: TLSVERIFY
+          value: $(params.tls-verify)
+      workspaces:
+        - name: source
+          workspace: source

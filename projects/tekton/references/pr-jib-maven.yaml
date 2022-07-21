@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: jib-maven-pipeline-run-
+spec:
+  serviceAccountName: build-sa
+  pipelineRef:
+    name: jib-maven-pipeline
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: pvc-source
+  params:
+  - name: GIT_URL
+    value: https://github.com/flytux/kube-watcher.git
+  - name: REVISION
+    value: master
+  - name: DIRECTORY
+    value: .
+  - name: IMAGE_URL
+    value: 192.168.100.101:30005/kw/kube-watcher:jib 
+  - name: CACHE
+    value: jib-maven-cache
+  podTemplate:
+    volumes:
+    - name: jib-maven-cache
+      persistentVolumeClaim:
+        claimName: pvc-cache 
