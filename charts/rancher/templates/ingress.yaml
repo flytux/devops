@@ -1,9 +1,5 @@
 {{- if .Values.ingress.enabled }}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
 apiVersion: networking.k8s.io/v1
-{{- else }}
-apiVersion: networking.k8s.io/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
   name: {{ template "rancher.fullname" . }}
@@ -39,18 +35,11 @@ spec:
     http:
       paths:
       - backend:
-          {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
           service:
             name: {{ template "rancher.fullname" . }}
             port:
               number: 80
-          {{- else }}
-          serviceName: {{ template "rancher.fullname" . }}
-          servicePort: 80
-          {{- end }}
-        {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
         pathType: ImplementationSpecific
-        {{- end }}
 {{- if eq .Values.tls "ingress" }}
   tls:
   - hosts:
