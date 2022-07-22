@@ -8,7 +8,7 @@ image:
 imagePullSecrets: []
 
 nfs:
-  server: 10.128.0.16
+  server: 10.178.0.3
   path: /mnt/pv
   mountOptions:
   volumeName: nfs-subdir-external-provisioner-root

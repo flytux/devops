@@ -69,7 +69,7 @@ spec:
           volumeMounts:
             - mountPath: /models
               name: models
-
+              subPath: model_repository
           resources:
             limits:
               nvidia.com/gpu: {{ .Values.image.numGpus }}

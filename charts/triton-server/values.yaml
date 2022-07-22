@@ -34,7 +34,7 @@ image:
   persistentVolumeClaimName: pvc-model
   modelRepositoryServer: < Replace with the IP Address of your file server >
   modelRepositoryPath: /srv/models
-  numGpus: 5
+  numGpus: 1
 
 traefik:
   ports:
