@@ -3,25 +3,54 @@
 # Use "name" to point to an external ConfigMap with a list of configurations.
 # Use "map" to build an integrated ConfigMap from a set of configurations as
 # part of this helm chart. An example of setting "map" might be:
-# config:
-#   map:
-#     default: |-
-#       version: v1
-#       flags:
-#         migStrategy: none
-#     mig-single: |-
-#       version: v1
-#       flags:
-#         migStrategy: single
-#     mig-mixed: |-
-#       version: v1
-#       flags:
-#         migStrategy: mixed
+#config:
+#  map:
+#    default: |-
+#      version: v1
+#      flags:
+#        migStrategy: "none"
+#        failOnInitError: true
+#        nvidiaDriverRoot: "/"
+#        plugin:
+#          passDeviceSpecs: false
+#          deviceListStrategy: "envvar"
+#          deviceIDStrategy: "uuid"
+#        gfd:
+#          oneshot: false
+#          noTimestamp: false
+#          outputFile: /etc/kubernetes/node-feature-discovery/features.d/gfd
+#          sleepInterval: 60s
+#      sharing:
+#        timeSlicing:
+#          resources:
+#          - name: nvidia.com/gpu
+#            replicas: 2
+#              migStrategy: mixed
 config:
   # ConfigMap name if pulling from an external ConfigMap
   name: ""
   # Set of named configs to build an integrated ConfigMap from
-  map: {}
+  map: 
+    default: |-
+      version: v1
+      flags:
+        migStrategy: "none"
+        failOnInitError: true
+        nvidiaDriverRoot: "/"
+        plugin:
+          passDeviceSpecs: false
+          deviceListStrategy: "envvar"
+          deviceIDStrategy: "uuid"
+        gfd:
+          oneshot: false
+          noTimestamp: false
+          outputFile: /etc/kubernetes/node-feature-discovery/features.d/gfd
+          sleepInterval: 60s
+      sharing:
+        timeSlicing:
+          resources:
+          - name: nvidia.com/gpu
+            replicas: 2
   # Default config name within the ConfigMap
   default: ""
   # List of fallback strategies to attempt if no config is selected and no default is provided
