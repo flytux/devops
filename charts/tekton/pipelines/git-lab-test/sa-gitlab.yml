@@ -4,11 +4,11 @@ kind: Secret
 metadata:
   name: gitlab-auth
   annotations:
-          tekton.dev/git-0: http://34.68.199.99:8080
+          tekton.dev/git-0: https://gitlab.222.122.67.218.nip.io
 type: kubernetes.io/basic-auth
 stringData:
-  username: flytux
-  password: "9ijn0okM"
+  username: root
+  password: "tmax@23!!"
 ---
 apiVersion: v1
 kind: ServiceAccount

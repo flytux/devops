@@ -10,7 +10,7 @@ spec:
     name: git-clone
   params: 
     - name: url
-      value: http://34.68.199.99:8080/flytux/https-github-com-flytux-spring-petclinic.git
+      value: http://gitlab.222.122.67.218.nip.io/root/nhdemo.git
     - name: revision
       value: master
   workspaces: 
