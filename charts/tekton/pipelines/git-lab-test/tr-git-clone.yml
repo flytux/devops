@@ -15,5 +15,6 @@ spec:
       value: master
   workspaces: 
     - name: output
-      persistentVolumeClaim:
-        claimName: pvc-build-source
+      emptyDir: {}
+      #      persistentVolumeClaim:
+      #  claimName: pvc-build-source
