@@ -23,9 +23,83 @@
   "gnetId": 12611,
   "graphTooltip": 0,
   "id": 40,
-  "iteration": 1659164916282,
+  "iteration": 1659168640408,
   "links": [],
   "panels": [
+    {
+      "datasource": "Loki",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltipOptions": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "7.5.11",
+      "targets": [
+        {
+          "expr": "count_over_time({namespace=\"$namespace\", pod=\"$pod\", stream=\"$stream\"}[$__interval])",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Count Over Time",
+      "type": "timeseries"
+    },
     {
       "datasource": "Loki",
       "description": "Live logs is a like 'tail -f' in a real time",
@@ -37,7 +111,7 @@
         "h": 20,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -60,7 +134,7 @@
       "type": "logs"
     }
   ],
-  "refresh": "10s",
+  "refresh": false,
   "schemaVersion": 27,
   "style": "dark",
   "tags": [
@@ -72,7 +146,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "logging",
           "value": "logging"
         },
@@ -103,7 +177,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "log-generator-857d975d6-hcrbj",
           "value": "log-generator-857d975d6-hcrbj"
         },
@@ -134,7 +208,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "stdout",
           "value": "stdout"
         },
@@ -184,8 +258,8 @@
     ]
   },
   "time": {
-    "from": "now-12h",
-    "to": "now"
+    "from": "2022-07-30T04:35:04.732Z",
+    "to": "2022-07-30T08:14:19.987Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -203,5 +277,5 @@
   "timezone": "",
   "title": "Loki  + Logging Operator Log Viewer",
   "uid": "fRIvzUZMz",
-  "version": 8
+  "version": 10
 }
