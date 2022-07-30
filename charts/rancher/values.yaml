@@ -4,6 +4,7 @@
 additionalTrustedCAs: false
 
 antiAffinity: preferred
+topologyKey: kubernetes.io/hostname
 
 # Audit Logs https://rancher.com/docs/rancher/v2.x/en/installation/api-auditing/
 # The audit log is piped to the console of the rancher-audit-log container in the rancher pod.
@@ -31,7 +32,7 @@ busyboxImage: busybox
 # busyboxImagePullPolicy: <pullPolicy>
 
 # Add debug flag to Rancher server
-debug: false
+debug: true
 
 # When starting Rancher for the first time, bootstrap the admin as restricted-admin
 restrictedAdmin: false
@@ -42,7 +43,7 @@ restrictedAdmin: false
 #   value: "1.0"
 
 # Fully qualified name to reach your Rancher server
-hostname: rancher.kubeworks.net
+hostname: rancher.kw
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -56,10 +57,8 @@ ingress:
   # Defaults to true
   # options: true, false
   enabled: true
-  extraAnnotations:
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+  includeDefaultExtraAnnotations: true
+  extraAnnotations: {}
 
   # configurationSnippet - Add additional Nginx configuration. This example statically sets a header on the ingress.
   # configurationSnippet: |
@@ -67,7 +66,8 @@ ingress:
 
   tls:
     # options: rancher, letsEncrypt, secret
-    source: rancher
+    source: secret
+    secretName: tls-rancher-ingress
 
 ### LetsEncrypt config ###
 # ProTip: The production environment only allows you to register a name 5 times a week.
@@ -77,10 +77,11 @@ letsEncrypt:
   environment: production
   ingress:
     # options: traefik, nginx
-    class: "nginx"
+    class: ""
 # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
 # in the 'rancher-system' namespace. See the README.md for details
-privateCA: false
+privateCA: true
+
 # http[s] proxy server passed into rancher server.
 # proxy: http://<username>@<password>:<url>:<port>
 
@@ -91,14 +92,15 @@ noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
 rancherImage: rancher/rancher
 # rancher/rancher image tag. https://hub.docker.com/r/rancher/rancher/tags/
 # Defaults to .Chart.appVersion
-rancherImageTag: v2.5.14
+#rancherImageTag: v2.5.15
 
 # Override imagePullPolicy for rancher server images
 # options: Always, Never, IfNotPresent
 # Defaults to IfNotPresent
 # rancherImagePullPolicy: <pullPolicy>
 
-# Number of Rancher server replicas.
+# Number of Rancher server replicas. Setting to negative number will dynamically between 0 and the abs(replicas) based on available nodes.
+# of available nodes in the cluster
 replicas: 1
 
 # Set pod resource requests/limits for Rancher.
@@ -135,3 +137,21 @@ customLogos:
   # storageClass: "-"
   accessMode: ReadWriteOnce
   size: 1Gi
+
+# Rancher post-delete hook
+postDelete:
+  enabled: true
+  image:
+    repository: rancher/shell
+    tag: v0.1.16
+  namespaceList:
+    - cattle-fleet-system
+    - cattle-system
+    - rancher-operator-system
+  # Number of seconds to wait for an app to be uninstalled
+  timeout: 120
+  # by default, the job will fail if it fail to uninstall any of the apps
+  ignoreTimeoutError: false
+
+# Set a bootstrap password. If leave empty, a random password will be generated.
+bootstrapPassword: ""
