@@ -23,7 +23,7 @@
   "gnetId": 12611,
   "graphTooltip": 0,
   "id": 40,
-  "iteration": 1659168640408,
+  "iteration": 1659168640418,
   "links": [],
   "panels": [
     {
@@ -91,7 +91,7 @@
       "pluginVersion": "7.5.11",
       "targets": [
         {
-          "expr": "count_over_time({namespace=\"$namespace\", pod=\"$pod\", stream=\"$stream\"}[$__interval])",
+          "expr": "count_over_time({namespace=\"$namespace\", pod=\"$pod\", stream=\"$stream\"}|=\"$search\"[$__interval])",
           "refId": "A"
         }
       ],
@@ -126,7 +126,7 @@
       },
       "targets": [
         {
-          "expr": "{namespace=\"$namespace\", stream=\"$stream\", pod=\"$pod\"} |=\"$searchable_pattern\"",
+          "expr": "{namespace=\"$namespace\", stream=\"$stream\", pod=\"$pod\"} |=\"$search\"",
           "refId": "A"
         }
       ],
@@ -236,22 +236,22 @@
       {
         "current": {
           "selected": false,
-          "text": "",
-          "value": ""
+          "text": "GET",
+          "value": "GET"
         },
         "description": null,
         "error": null,
         "hide": 0,
         "label": "Search (case insensitive)",
-        "name": "searchable_pattern",
+        "name": "search",
         "options": [
           {
             "selected": true,
-            "text": "",
-            "value": ""
+            "text": "GET",
+            "value": "GET"
           }
         ],
-        "query": "",
+        "query": "GET",
         "skipUrlSync": false,
         "type": "textbox"
       }
@@ -277,5 +277,5 @@
   "timezone": "",
   "title": "Loki  + Logging Operator Log Viewer",
   "uid": "fRIvzUZMz",
-  "version": 10
+  "version": 11
 }
