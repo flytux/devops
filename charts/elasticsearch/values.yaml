@@ -32,7 +32,7 @@ global:
 kubeVersion: ""
 ## @param nameOverride String to partially override common.names.fullname
 ##
-nameOverride: ""
+nameOverride: "elastic"
 ## @param fullnameOverride String to fully override common.names.fullname
 ##
 fullnameOverride: ""
@@ -528,17 +528,18 @@ master:
   nodeAffinityPreset:
     ## @param master.nodeAffinityPreset.type Node affinity preset type. Ignored if `master.affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: "hard"
     ## @param master.nodeAffinityPreset.key Node label key to match. Ignored if `master.affinity` is set
     ##
-    key: ""
+    key: "kubernetes.io/hostname"
     ## @param master.nodeAffinityPreset.values Node label values to match. Ignored if `master.affinity` is set
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: []
+    values: 
+      - kw-02
   ## @param master.affinity Affinity for master-elegible pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## NOTE: `master.podAffinityPreset`, `master.podAntiAffinityPreset`, and `master.nodeAffinityPreset` will be ignored when it's set
@@ -820,17 +821,18 @@ data:
   nodeAffinityPreset:
     ## @param data.nodeAffinityPreset.type Node affinity preset type. Ignored if `data.affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: "hard"
     ## @param data.nodeAffinityPreset.key Node label key to match. Ignored if `data.affinity` is set
     ##
-    key: ""
+    key: "kubernetes.io/hostname"
     ## @param data.nodeAffinityPreset.values Node label values to match. Ignored if `data.affinity` is set
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: []
+    values: 
+      - kw-02
   ## @param data.affinity Affinity for data pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## NOTE: `data.podAffinityPreset`, `data.podAntiAffinityPreset`, and `data.nodeAffinityPreset` will be ignored when it's set
@@ -1112,17 +1114,18 @@ coordinating:
   nodeAffinityPreset:
     ## @param coordinating.nodeAffinityPreset.type Node affinity preset type. Ignored if `coordinating.affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: "hard"
     ## @param coordinating.nodeAffinityPreset.key Node label key to match. Ignored if `coordinating.affinity` is set
     ##
-    key: ""
+    key: "kubernetes.io/hostname"
     ## @param coordinating.nodeAffinityPreset.values Node label values to match. Ignored if `coordinating.affinity` is set
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: []
+    values: 
+      - kw-02
   ## @param coordinating.affinity Affinity for coordinating-only pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## NOTE: `coordinating.podAffinityPreset`, `coordinating.podAntiAffinityPreset`, and `coordinating.nodeAffinityPreset` will be ignored when it's set
@@ -1374,17 +1377,18 @@ ingest:
   nodeAffinityPreset:
     ## @param ingest.nodeAffinityPreset.type Node affinity preset type. Ignored if `ingest.affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: "hard"
     ## @param ingest.nodeAffinityPreset.key Node label key to match. Ignored if `ingest.affinity` is set
     ##
-    key: ""
+    key: "kubernetes.io/hostname"
     ## @param ingest.nodeAffinityPreset.values Node label values to match. Ignored if `ingest.affinity` is set
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: []
+    values: 
+      - kw-02
   ## @param ingest.affinity Affinity for ingest-only pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## NOTE: `ingest.podAffinityPreset`, `ingest.podAntiAffinityPreset`, and `ingest.nodeAffinityPreset` will be ignored when it's set
