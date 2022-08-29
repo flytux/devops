@@ -49,7 +49,7 @@ Set Elasticsearch URL.
 Set Elasticsearch Port.
 */}}
 {{- define "kibana.elasticsearch.port" -}}
-{{- include "common.tplvalues.render" (dict "value" .Values.elasticsearch.port "context" $) -}}
+{{- .Values.elasticsearch.port -}}
 {{- end -}}
 
 {{/*
