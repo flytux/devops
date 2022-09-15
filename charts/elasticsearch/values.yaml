@@ -19,7 +19,7 @@ global:
   storageClass: ""
   coordinating:
     name: coordinating-only
-  kibanaEnabled: false
+  kibanaEnabled: true
 
 ## @section Common parameters
 
@@ -235,7 +235,7 @@ master:
   ## https://www.elastic.co/guide/en/elasticsearch/reference/7.x/modules-discovery-voting.html#_even_numbers_of_master_eligible_nodes
   ## https://www.elastic.co/guide/en/elasticsearch/reference/7.x/modules-discovery-quorums.html#modules-discovery-quorums
   ##
-  replicas: 3
+  replicas: 1
   ## Update strategy for ElasticSearch master statefulset
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
   ## @param master.updateStrategy.type Update strategy for Master statefulset
@@ -421,7 +421,7 @@ master:
   persistence:
     ## @param master.persistence.enabled Enable persistence using a `PersistentVolumeClaim`
     ##
-    enabled: true
+    enabled: false
     ## @param master.persistence.storageClass Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
     ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -509,7 +509,7 @@ coordinating:
   fullnameOverride: ""
   ## @param coordinating.replicas Desired number of Elasticsearch coordinating-only nodes
   ##
-  replicas: 2
+  replicas: 1
   ## @param coordinating.hostAliases Add deployment host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
