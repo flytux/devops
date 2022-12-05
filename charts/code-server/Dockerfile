@@ -3,7 +3,12 @@
 
 FROM maven:3.8.3-jdk-11-slim
 
-RUN apt-get update && apt-get install -y net-tools iproute2 dnsutils iputils-ping openssh-server zsh git vim tmux jq netcat neovim
+RUN apt-get update && apt-get install -y net-tools iproute2 dnsutils iputils-ping openssh-server zsh git vim tmux jq netcat neovim wget unzip
+
+RUN wget https://services.gradle.org/distributions/gradle-7.6-bin.zip
+
+RUN mkdir /opt/gradle && unzip -d /opt/gradle gradle-7.6-bin.zip
+
 
 COPY bins/* /usr/local/bin/
 
@@ -25,6 +30,8 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 RUN echo 'root:1' | chpasswd
+
+RUN export PATH=$PATH:/opt/gradle/gradle-7.6/bin
 
 WORKDIR /root
 
