@@ -19,3 +19,4 @@ spec:
           capabilities:
             add: ["SYS_ADMIN"]  
       restartPolicy: Never
+      runtimeClassName: nvidia
