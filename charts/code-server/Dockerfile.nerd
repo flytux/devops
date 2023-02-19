@@ -24,7 +24,7 @@ COPY scripts/.zshrc ~/root
 RUN wget https://github.com/containerd/nerdctl/releases/download/v1.2.0/nerdctl-full-1.2.0-linux-amd64.tar.gz
 RUN tar Cxzvvf /usr/local nerdctl-full-1.2.0-linux-amd64.tar.gz
 
-RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
+RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc && chmod 755 /usr/local/bin/mc
 
 RUN rm -rf /var/lib/apt/lists/*
 
