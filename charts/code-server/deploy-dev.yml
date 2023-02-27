@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
       - name: dev
-        image: dev:nerd
+        image: dev:hero
         imagePullPolicy: IfNotPresent
         stdin: true
         tty: true
