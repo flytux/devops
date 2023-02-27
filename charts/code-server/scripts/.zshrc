@@ -114,6 +114,7 @@ alias kgn='kubectl get nodes -o wide'
 
 alias kn='kubectl config set-context --current --namespace'
 alias kc='kubectl config use-context'
+alias kc='kubectl config get-contexts'
 alias di='docker images --format "table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.Size}}\t{{.CreatedSince}}"'
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=cyan,bold'
