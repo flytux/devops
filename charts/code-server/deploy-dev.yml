@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
       - name: dev
-        image: dev:hero
+        image: dev:new
         imagePullPolicy: IfNotPresent
         stdin: true
         tty: true
@@ -57,14 +57,8 @@ spec:
             value: Asia/Seoul
         volumeMounts:
         - name: dev-volume
-          mountPath: /root/works
-        - name: containerd-sock-volume
-          mountPath: /run/containerd/containerd.sock
+          mountPath: /root/works      
       volumes:
         - name: dev-volume
           persistentVolumeClaim:
             claimName: dev-pvc
-        - name: containerd-sock-volume
-          hostPath:
-            path: /run/k3s/containerd/containerd.sock
-            type: Socket
