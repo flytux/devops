@@ -2,5 +2,5 @@
 
 ---
 
-- using Dockerfile-new-dev
-
+- Build image using Dockerfile.dev
+- Deploy with deploy-dev.yaml
