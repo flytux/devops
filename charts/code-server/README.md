@@ -3,4 +3,4 @@
 ---
 
 - Build image using Dockerfile.dev
-- Deploy with deploy-dev.yaml
+- Deploy with deploy-dev.yml
