@@ -1,6 +1,20 @@
-FROM eclipse-temurin:11-jdk-alpine
+FROM eclipse-temurin:17-jdk
 
-RUN apk add --no-cache bash procps curl tar git zsh openssl vim
+RUN apt-get update \
+  && apt-get install -y ca-certificates curl git jq net-tools iproute2 dnsutils iputils-ping openssh-server zsh vim tmux gnupg lsb-release --no-install-recommends 
+
+RUN install -m 0755 -d /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && chmod a+r /etc/apt/keyrings/docker.gpg
+
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN apt-get update && apt-get install docker-ce-cli -y && rm -rf /var/lib/apt/lists/*
 
 # Install zsh & plugins
 
@@ -24,9 +38,7 @@ alias kn='kubectl config set-context --current --namespace' \n\
 alias kc='kubectl config use-context' \n\
 alias kcg='kubectl config get-contexts' \n\
 alias di='docker images --format "table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.Size}}\t{{.CreatedSince}}"' \n\
-alias kge="kubectl get events  --sort-by='.metadata.creationTimestamp'  -o 'go-template={{range .items}}{{.involvedObject.name}}{{\"\t\"}}{{.involvedObject.kind}}{{\"\t\"}}{{.message}}{{\"\t\"}}{{.reason}}{{\"\t\"}}{{.type}}{{\"\t\"}}{{.firstTimestamp}}{{\"\n\"}}{{end}}'" \n\
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=black,bold' \
-" >> ~/.zshrc
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=black,bold'" >> ~/.zshrc
 
 # Install kubernetes tools
 
@@ -42,7 +54,7 @@ RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc \
 RUN chmod +x $HOME/minio-binaries/mc
 RUN export PATH=$PATH:$HOME/minio-binaries/
 
-# Install maven
+# common for all images
 ENV MAVEN_HOME /usr/share/maven
 
 COPY --from=maven:3.9.3-eclipse-temurin-11 ${MAVEN_HOME} ${MAVEN_HOME}
